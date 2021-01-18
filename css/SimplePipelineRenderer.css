@@ -1,0 +1,56 @@
+
+
+rect.compact.endnode {
+    fill: #808080;
+    stroke-width: 0;
+}
+
+rect.compact.node {
+    fill:  #80a0f0;
+    stroke-width: 0;
+}
+
+rect.selected {
+    fill:  #f040a0;
+}
+
+div.nodetextcontainer {
+    background-color: white;
+    border-bottom: 1px #e0e0e0 solid;
+    border-right:  1px #f0f0f0 solid;
+    border-top:    1px #f0f0f0 solid;
+    border-top-right-radius: 3px;
+    padding: 0px 1px 0px 8px;
+    font-size: 10px;
+    font-family: Titillium Web, Consolas, Roboto, Helvetica;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+text.infotext {
+    font-family: helvetica;
+    font-size: 20px;
+    fill: black;
+}
+
+text.infotext#infodialog_text_line_0 {
+    font-family: Monaco,Courier,Courier_New,Fixed,monospace;
+    font-size: 32px;
+    fill: #a0a0a0;
+}
+
+div.infobox {
+    position: absolute;
+    background-color: rgba(240,240,240,0.5);
+    border-radius: 3px;
+    width: 420px;
+    height: 49px;
+    padding: 8px;
+    font-family: Helvetica;
+    font-size: 10px;
+    color: black;
+}
+
+polyline {
+    fill: none;
+}

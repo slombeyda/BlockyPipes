@@ -1,0 +1,108 @@
+
+
+
+body,
+pre {
+   font-family: Consolas,Monaco,Courier,CourierNew;
+   font-size: 13px;
+}
+pre#console {
+    font-size: 11px;
+    background-color: #f8f8f8;
+    padding: 24px 48px 24px 24px;
+    display: inline-block;
+    line-height: 18px;
+    vertical-align: top;
+    float: left;
+    width: 580px;
+    height: 420px;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    margin: 0 0 0 0;
+}
+
+div.graphs {
+    display: inline-block;
+    width: 720px;
+    margin: 20px 0 0 0;
+
+}
+div.graphspanel {
+    width: 800px;
+}
+
+em {
+   color: #a0a0a0;
+   font-size: 10px;
+}
+
+div.pipelinecanvascontainer_extended,
+div.pipelinecanvascontainer {
+    margin: 6px 8px 0px 0px;
+    vertical-align: top;
+    float: left;
+    border: 3px white solid;
+    display: inline-block;
+    cursor: pointer;
+}
+
+div.pipelinecanvascontainer:hover {
+    border: 3px #beffa0 solid;
+}
+
+div.pipelinecanvascontainer_extended {
+    background-color: #fcfcfc;
+    width:  640px;
+    height: 180px;
+    border-left: 3px #f0f0f0 solid;
+    display: block;
+    cursor: pointer;
+}
+
+div.pipelinecanvascontainer {
+    background-color: #fcfcfc;
+    width:  160px;
+    height: 60px;
+}
+
+svg.pipelinecanvas {
+    float: left;
+    display: block;
+}
+
+div.consolepanel {
+    padding-left: 32px;
+    width: 660px;
+    display: inline-block;
+    float: left;
+    vertical-align: top;
+}
+
+.consoletabs {
+    border-spacing: 0 0;
+    width: 640px;
+    margin: 0 0 0 0;
+}
+.consoletabsrow {
+    background-color: #f0f0f0;
+    font-size: 12px;
+    font-family: Titillium Web, Consolas, Roboto, Helvetica;
+    color: #606060;
+}
+
+.consoleTAB {
+    padding: 4px 30px 4px 30px;
+    padding: 4px 10px 4px 10px;
+    border-right: 1px white solid;
+}
+
+.consoleTABselected {
+    padding: 4px 30px 4px 30px;
+    border-right: 1px blue solid;
+    background-color: #404040;
+    color: white;
+}
+.consoleTAB:hover {
+    background-color: #a0a0a0;
+    color: white;
+}
