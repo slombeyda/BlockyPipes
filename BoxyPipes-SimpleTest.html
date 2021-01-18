@@ -1,0 +1,122 @@
+<html>
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+
+<script src='js/d3.js'></script>
+
+<script src='js/SimplePipelineRenderer.js'></script>
+
+<link rel="stylesheet" href="css/SimplePipelineRenderer.css" />
+
+<style>
+   body {
+         padding: 20px 40px 20px 40px;
+         background-color: #f0f0f0;
+   }
+   svg {
+         border: 1px gray dotted;
+         background-color: #d0d0d0;
+   }
+   h4 {
+	 width: 800px;
+         text-align: left;
+         font-weight: normal;
+         font-family: Titillium Web;
+         text-transform: uppercase;
+         font-size: 10px;
+   }
+</style>
+
+<script>
+
+let nodetable= [
+{
+      id: 0,
+      x:  0,
+      y:  0,
+      description: 'd3.simpletest.node_0.input'
+  },
+{
+      id: 1,
+      x:  1,
+      y:  0,
+      description: 'd3.simpletest.node_1.reader.base'
+  },
+{
+      id: 2,
+      x:  2,
+      y:  0,
+      description: 'd3.simpletest.node_2.parser.base'
+  },
+{
+      id: 3,
+      x:  3,
+      y:  1,
+      description: 'd3.simpletest.node_3.feature.base'
+  },
+{
+      id: 4,
+      x:  3,
+      y:  0,
+      description: 'd3.simpletest.node_4.cleaner.base'
+  },
+{
+      id: 5,
+      x:  4,
+      y:  0,
+      description: 'd3.simpletest.node_5.cluster.base'
+  },
+{
+      id: 6,
+      x:  5,
+      y:  0,
+      description: 'd3.simpletest.node_6.output'
+  },
+];
+let connectivity= [
+  [0,1],
+  [1,2],
+  [1,3],
+  [2,4],
+  [3,5],
+  [4,5],
+  [5,6]
+];
+
+//function deepclone(o) { return Object.assign({}, o);}
+let deepclone= o => JSON.parse(JSON.stringify(o));
+
+let nodetable_2 = deepclone(nodetable);
+let nodetable_3 = deepclone(nodetable);
+let connectivity_2 = deepclone(connectivity);
+let connectivity_3 = deepclone(connectivity);
+
+</script>
+<body>
+  <center>
+     <h4>compact view<h4>
+     <svg width=800 height=60  id=svgcanvas01 class=pipelinecanvas></svg>
+
+     <h4>expanded view<h4>
+     <svg width=800 height=120 id=svgcanvas02 class=pipelinecanvas></svg>
+
+     <h4>expanded view w/ focus<h4>
+     <svg width=800 height=120 id=svgcanvas03 class=pipelinecanvas></svg>
+  </center>
+  <script>
+
+      let pipelinecanvasSVGid= 'svg#svgcanvas01';
+      SimplePipelineRenderer.draw(nodetable,connectivity,true,pipelinecanvasSVGid);
+
+      pipelinecanvasSVGid= 'svg#svgcanvas02';
+      SimplePipelineRenderer.draw(nodetable_2,connectivity_2,true,pipelinecanvasSVGid);
+      SimplePipelineRenderer.update(SimplePipelineRenderer.MODE_EXPANDED,nodetable_2,true,pipelinecanvasSVGid);
+
+      pipelinecanvasSVGid= 'svg#svgcanvas03';
+      SimplePipelineRenderer.draw(nodetable_3,connectivity_3,true,pipelinecanvasSVGid);
+      SimplePipelineRenderer.update(SimplePipelineRenderer.MODE_EXPANDED,nodetable,true,pipelinecanvasSVGid,3,1);
+
+  </script>
+</body>
+</html>

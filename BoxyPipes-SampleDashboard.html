@@ -1,0 +1,143 @@
+<html>
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap" rel="stylesheet">
+
+<script src='js/d3.js'></script>
+
+<script src='data/pipeline.js'></script>
+<script src='data/pipelines_x10.js'></script>
+
+<script src='js/SimplePipeline.js'></script>
+<script src='js/SimplePipelineNode.js'></script>
+<script src='js/SimplePipelineRawNode.js'></script>
+<script src='js/SimplePipelineRenderer.js'></script>
+
+<script src='js/SlowGraphPositioner.js'></script>
+
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/SimplePipelineRenderer.css" />
+
+<script>
+
+  // check css defaults!
+  const GRAPHCANVAS_COMPACT_WIDTH = 160;
+  const GRAPHCANVAS_EXTENDED_WIDTH= 640;
+
+  const GRAPHCANVAS_COMPACT_HEIGHT =  60;
+  const GRAPHCANVAS_EXTENDED_HEIGHT= 180;
+
+  var data;
+  function loaddata() {
+     d3.json('./data/pipeline.json',dataread);
+  }
+  function dataread(d) {
+     console.log(d);
+     document.write('Data Read<br>');
+  }
+
+  function logdata(p) {
+     console.log(p.nodetableheader);
+     console.log(p.nodetable);
+     console.log(p.connectivitytableheader);
+     console.log(p.connectivitytable);
+  }
+
+  function updateconsole(i) {
+     document.getElementById('console').innerHTML=pipelineinfo[i];
+
+     d3.selectAll('td.consoleTAB').classed('consoleTABselected',false);
+     d3.selectAll('td.consoleTAB').classed('consoleTab',true);
+
+     d3.select('td#consoleTAB_'+i).classed('consoleTAB',false);
+     d3.select('td#consoleTAB_'+i).classed('consoleTABselected',true);
+ }
+
+  function updateinfo(sp,i) {
+     sp.update(SimplePipelineRenderer.MODE_EXPANDED,SimplePipelineRenderer,'svg#pipelinecanvas_'+i);
+     document.getElementById('pipelinecanvascontainer_'+i).className='pipelinecanvascontainer_extended';
+     let graphcanvas= document.getElementById('pipelinecanvas_'+i);
+     graphcanvas.setAttributeNS(null,'height', GRAPHCANVAS_EXTENDED_HEIGHT+'px');
+     graphcanvas.setAttributeNS(null,'width',  GRAPHCANVAS_EXTENDED_WIDTH +'px');
+     updateconsole(i);
+     //console.log('updateinfo->update');
+  }
+
+  function unupdateinfo(sp,i) {
+     //updateconsole(i);
+     sp.update(SimplePipelineRenderer.MODE_COMPACT,SimplePipelineRenderer,'svg#pipelinecanvas_'+i);
+     document.getElementById('pipelinecanvascontainer_'+i).className='pipelinecanvascontainer';
+     let graphcanvas= document.getElementById('pipelinecanvas_'+i);
+     graphcanvas.setAttributeNS(null,'width', GRAPHCANVAS_COMPACT_WIDTH +'px');
+     graphcanvas.setAttributeNS(null,'height',GRAPHCANVAS_COMPACT_HEIGHT+'px');
+     //console.log('un-updateinfo->update');
+  }
+
+  function selectPipelineGraph(sp,i) {
+      let container= document.getElementById('pipelinecanvascontainer_'+i);
+      if (container.className.indexOf('_extended')>0)
+         unupdateinfo(sp,i);
+      else {
+         updateinfo(sp,i);
+      }
+  }
+
+  let pipelineinfo=[];
+  let svgxml="http://www.w3.org/2000/svg";
+
+  function createPipeline(pipelinedata,i) {
+     let graphcanvascontainer= document.createElement('div');
+     graphcanvascontainer.className='pipelinecanvascontainer';
+     graphcanvascontainer.id       ='pipelinecanvascontainer_'+i;
+
+     let graphcanvas= document.createElementNS(svgxml,'svg');
+     graphcanvas.id='pipelinecanvas_'+i;
+     graphcanvas.className='pipelinecanvas';
+     graphcanvas.setAttributeNS(null,'width',  GRAPHCANVAS_COMPACT_WIDTH +'px');
+     graphcanvas.setAttributeNS(null,'height', GRAPHCANVAS_COMPACT_HEIGHT+'px');
+     graphcanvas.setAttributeNS(null,'float',  'left');
+     graphcanvas.setAttributeNS(null,'display','inline-block');
+     graphcanvascontainer.appendChild(graphcanvas);
+
+     document.getElementById('graphspanel').appendChild(graphcanvascontainer);
+
+     let sp= new SimplePipeline();
+     sp.setdata(pipelinedata);
+     sp.draw(SimplePipelineRenderer,'svg#pipelinecanvas_'+i);
+     pipelineinfo.push(sp.writeinfo());
+     //document.getElementById('pipelinecanvas_'+i).onmouseover= function() { updateinfo(sp,i); }
+     //document.getElementById('pipelinecanvas_'+i).onmouseout = function() { unupdateinfo(sp,i); }
+     document.getElementById('pipelinecanvas_'+i).onclick= function() { selectPipelineGraph(sp,i); }
+  }
+
+  function kickstart() {
+
+     createPipeline(pipeline,0);
+     for (let i=0; i<pipelines.length; i++) {
+       createPipeline(pipelines[i],i+1);
+     }
+
+     document.getElementById('consoletabs').innerHTML="<tr class=consoletabsrow id=consoletabsrow></tr>";
+     for (let i=0; i<pipelineinfo.length; i++) {
+         let tabcell= document.createElement('td');
+         tabcell.innerHTML='#'+i;
+         tabcell.id='consoleTAB_'+i;
+         tabcell.className='consoleTAB';
+         document.getElementById('consoletabsrow').appendChild(tabcell);
+
+     }
+
+     updateconsole(0);
+  }
+</script>
+
+<body onload='kickstart();'>
+  <h4>d3m-pipeline-tests</h4>
+  <div     class=consolepanel id=consolepanel>
+    <table class=consoletabs id=consoletabs></table>
+    <pre   class=console id=console>[loading]</pre>
+  </div>
+  <div class=graphs id=graphspanel>
+  </div>
+</body>
+</html>
