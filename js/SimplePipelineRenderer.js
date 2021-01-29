@@ -181,12 +181,23 @@ class SimplePipelineRenderer {
           boxscale=2;
        }
 
-       let input_n=   0;
-       let output_n=  nodetable.length-1;
+       let input_n=   -1;
+       let output_n=  -2;
 
-       if (!hasinputoutput) {
-           input_n=  -1;
-           output_n= -2;
+       if (hasinputoutput) {
+           for (let i=0; i<nodetable.length & input_n<0;i++) {
+               let info=nodetable[i].description.split('.');
+               if (info[info.length-1].toLowerCase()==='input') input_n=i;
+               else if (info[info.length-1].toLowerCase()==='inputs') input_n=i;
+           }
+           if (input_n<0) input_n=0;
+           for (let i=0; i<nodetable.length & output_n<0;i++) {
+               let info=nodetable[i].description.split('.');
+               if (info[info.length-1].toLowerCase()==='output') output_n=i;
+               else if (info[info.length-1].toLowerCase()==='outputs') output_n=i;
+           }
+           if (output_n<0) output_n=nodetable.length-1;
+           //console.log(nodetable[i].description);
        }
 
        let grid=SimplePipelineRenderer.regrid(mode,hasinputoutput,nodetable,expandx,expandy);
